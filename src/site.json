@@ -1,0 +1,18 @@
+{
+  "name": "Veer New Look Central School, Halol",
+  "url": "https://veernewlookschool.com",
+  "emails": ["veer.newlook@gmail.com", "veernewlookoffice@gmail.com"],
+  "instagram": [
+    { "handle": "vnlcs_halol", "url": "https://www.instagram.com/vnlcs_halol/" },
+    { "handle": "veernewlookschoolhalol", "url": "https://www.instagram.com/veernewlookschoolhalol/" }
+  ],
+  "nav": [
+    { "key": "home", "label": "Home", "href": "/" },
+    { "key": "about", "label": "About", "href": "/about/" },
+    { "key": "academics", "label": "Academics", "href": "/academics/" },
+    { "key": "facilities", "label": "Facilities", "href": "/facilities/" },
+    { "key": "gallery", "label": "Gallery", "href": "/gallery/" },
+    { "key": "notices", "label": "Notice Board", "href": "/notices/" },
+    { "key": "admissions", "label": "Admissions", "href": "/admissions/" }
+  ]
+}

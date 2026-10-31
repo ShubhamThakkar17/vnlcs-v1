@@ -1,0 +1,9 @@
+{
+  "_comment": "SAMPLE DATA for the preview. In step 4 this file is written from Sanity by the PHP cache. Titles in [brackets] are placeholders.",
+  "tickerOn": true,
+  "notices": [
+    { "title": "[SAMPLE] Latest CBSE circular title", "category": "CBSE Circular", "date": "2026-10-29", "url": "/notices/" },
+    { "title": "[SAMPLE] School notice title", "category": "School Notice", "date": "2026-10-20", "url": "/notices/" },
+    { "title": "[SAMPLE] Event notice title", "category": "Event", "date": "2026-10-12", "url": "/notices/" }
+  ]
+}

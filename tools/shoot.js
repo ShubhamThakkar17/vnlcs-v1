@@ -13,8 +13,11 @@ const { chromium } = require('playwright');
       page.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
       await page.goto('http://127.0.0.1:8080' + path, { waitUntil: 'networkidle' });
       // scroll through so on-scroll annotations draw
-      await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } window.scrollTo(0, 0); });
-      await page.waitForTimeout(1200);
+      await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 300) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 180)); } window.scrollTo(0, 0); });
+      await page.waitForTimeout(1500);
+      // fast-forward one-off animations so full-page captures show the settled state
+      await page.evaluate(() => document.getAnimations().forEach(a => { try { if (a.effect && a.effect.getTiming().iterations !== Infinity) a.finish(); } catch (e) {} }));
+      await page.waitForTimeout(300);
       await page.screenshot({ path: `${out}-${theme}-${width}.png`, fullPage: true });
       if (errs.length) console.log(theme, width, errs);
       await ctx.close();

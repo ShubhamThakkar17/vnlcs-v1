@@ -107,12 +107,19 @@
     svg.innerHTML = html;
   }
 
-  var outlined = document.querySelectorAll("[data-chalk]");
-  outlined.forEach(drawOutline);
-  if ("ResizeObserver" in window) {
-    var ro = new ResizeObserver(function (entries) { entries.forEach(function (en) { drawOutline(en.target); }); });
-    outlined.forEach(function (el) { ro.observe(el); });
+  var ro = "ResizeObserver" in window ? new ResizeObserver(function (entries) { entries.forEach(function (en) { drawOutline(en.target); }); }) : null;
+  function outlineAll() {
+    document.querySelectorAll("[data-chalk]").forEach(function (el) {
+      if (el._chalked) return;
+      el._chalked = true;
+      drawOutline(el);
+      if (ro) ro.observe(el);
+    });
   }
+  outlineAll();
+  // fonts change sizes; content can be injected later (reels, notices)
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { document.querySelectorAll("[data-chalk]").forEach(drawOutline); });
+  document.addEventListener("vnl:content", function () { outlineAll(); watchReels(); });
 
   /* ---------- Rough Notation: underline, circle, box, drawn in once on scroll ---------- */
   var annotations = [];
@@ -143,7 +150,8 @@
         multiline: false
       });
       annotations.push({ ann: ann, colour: colour });
-      ann.show();
+      var delay = reduceMotion ? 0 : parseInt(el.getAttribute("data-delay"), 10) || 0;
+      setTimeout(function () { ann.show(); }, delay);
     };
     if (!("IntersectionObserver" in window)) { els.forEach(show); return; }
     var io = new IntersectionObserver(function (entries) {
@@ -158,18 +166,22 @@
   else window.addEventListener("load", setUpAnnotations);
 
   /* ---------- Reels: play muted in view, stop when out, tap to unmute ---------- */
-  var reels = document.querySelectorAll(".reel video");
-  if (reels.length && "IntersectionObserver" in window) {
-    var rio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        var v = en.target;
-        if (en.isIntersecting && !reduceMotion && !v.closest("[data-paused]")) {
-          var p = v.play(); if (p && p.catch) p.catch(function () {});
-        } else { v.pause(); }
-      });
-    }, { threshold: 0.6 });
-    reels.forEach(function (v) { v.muted = true; rio.observe(v); });
+  var rio = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var v = en.target;
+      if (en.isIntersecting && !reduceMotion && !v.closest("[data-paused]")) {
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      } else { v.pause(); }
+    });
+  }, { threshold: 0.6 }) : null;
+  function watchReels() {
+    document.querySelectorAll(".reel video").forEach(function (v) {
+      if (v._watched) return;
+      v._watched = true; v.muted = true;
+      if (rio) rio.observe(v);
+    });
   }
+  watchReels();
   document.addEventListener("click", function (e) {
     var btn = e.target.closest && e.target.closest(".reel__sound");
     if (!btn) return;
@@ -202,7 +214,173 @@
     var label = btn.querySelector(".pause-label");
     if (label) label.textContent = paused ? "Pause" : "Play";
     target.querySelectorAll("video").forEach(function (v) { if (!paused) v.pause(); });
+    var icon = btn.querySelector("use");
+    if (icon) icon.setAttribute("href", "/assets/doodles/sprite.svg" + (paused ? "#i-pause" : "#i-play"));
   });
 
   applyTheme(currentTheme(), false);
+})();
+
+/* ==========================================================================
+   Motion and page furniture. CSS does the animating; JS only flips classes.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var SPRITE = "/assets/doodles/sprite.svg";
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function icon(id, cls) { return '<svg class="' + (cls || "") + '" aria-hidden="true" focusable="false"><use href="' + SPRITE + "#" + id + '"/></svg>'; }
+
+  /* ---------- Staggered reveals ---------- */
+  document.querySelectorAll("[data-stagger]").forEach(function (group) {
+    var kids = group.querySelectorAll(":scope > [data-reveal], :scope > * > [data-reveal]");
+    kids.forEach(function (el, i) { el.style.setProperty("--i", i); });
+  });
+  document.querySelectorAll(".write-on > span").forEach(function (el, i) { el.style.setProperty("--i", i); });
+
+  var revealables = document.querySelectorAll("[data-reveal], .doodle[data-draw], [data-count]");
+  function reveal(el) {
+    el.classList.add("is-in");
+    if (el.hasAttribute("data-count")) countUp(el);
+  }
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealables.forEach(reveal);
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { reveal(en.target); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    revealables.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- Count up (only for figures the school has confirmed) ---------- */
+  function countUp(el) {
+    var end = parseInt(el.getAttribute("data-count"), 10);
+    var start = parseInt(el.getAttribute("data-count-from"), 10) || 0;
+    if (isNaN(end) || reduceMotion) { return; }
+    var t0 = null, dur = 1400;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(start + (end - start) * eased);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- Header shadow on scroll ---------- */
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () { header.classList.toggle("is-scrolled", window.scrollY > 8); ticking = false; });
+    }, { passive: true });
+  }
+
+  /* ---------- Mobile menu ---------- */
+  var menu = document.getElementById("mobile-menu");
+  var openBtn = document.querySelector("[data-menu-open]");
+  function setMenu(open) {
+    if (!menu) return;
+    menu.classList.toggle("is-open", open);
+    menu.setAttribute("aria-hidden", open ? "false" : "true");
+    if (open) menu.removeAttribute("inert"); else menu.setAttribute("inert", "");
+    document.querySelectorAll("[data-menu-open], [data-menu-close]").forEach(function (b) { b.setAttribute("aria-expanded", open ? "true" : "false"); });
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open) { var first = menu.querySelector("a"); if (first) setTimeout(function () { first.focus(); }, 100); }
+    else if (openBtn) openBtn.focus();
+  }
+  if (menu) {
+    menu.querySelectorAll("li").forEach(function (li, i) { li.style.setProperty("--i", i); });
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-menu-open]")) setMenu(true);
+      else if (e.target.closest("[data-menu-close]")) setMenu(false);
+      else if (menu.classList.contains("is-open") && e.target.closest("#mobile-menu a")) setMenu(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.classList.contains("is-open")) setMenu(false); });
+  }
+
+  /* ---------- Notice ticker: latest three notices from /data/notices-latest.json ---------- */
+  var ticker = document.querySelector("[data-ticker]");
+  if (ticker) {
+    fetch("/data/notices-latest.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+      if (!data || data.tickerOn === false || !data.notices || !data.notices.length) { ticker.hidden = true; return; }
+      var now = Date.now(), WEEK = 7 * 864e5;
+      var items = data.notices.slice(0, 3).map(function (n) {
+        var d = new Date(n.date), isNew = now - d.getTime() < WEEK && now >= d.getTime();
+        var label = d.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+        return '<li>' + (isNew ? '<span class="tag tag--new">New</span>' : "") +
+          '<time datetime="' + esc(n.date) + '">' + esc(label) + '</time>' +
+          '<a href="' + esc(n.url) + '">' + esc(n.title) + "</a></li>";
+      }).join("");
+      var list = ticker.querySelector(".ticker__list");
+      // doubled list so the loop on small screens is seamless; the copy is hidden from screen readers
+      list.innerHTML = items + items.replace(/<li>/g, '<li aria-hidden="true">').replace(/<a /g, '<a tabindex="-1" ');
+      ticker.hidden = false;
+    }).catch(function () { ticker.hidden = true; });
+  }
+
+  /* ---------- Instagram reels: our JSON, or Behold's, with a graceful fallback ---------- */
+  var reelsRow = document.querySelector("[data-reels]");
+  var ACCOUNTS = [
+    { handle: "vnlcs_halol", url: "https://www.instagram.com/vnlcs_halol/" },
+    { handle: "veernewlookschoolhalol", url: "https://www.instagram.com/veernewlookschoolhalol/" }
+  ];
+  function followCard(acc) {
+    return '<figure class="reel reel--follow"><div class="reel__phone" data-chalk="phone"><span class="reel__notch" aria-hidden="true"></span>' +
+      '<div class="reel__screen">' + '<div>' + icon("i-instagram") + '<strong>@' + esc(acc.handle) + '</strong>' +
+      '<a class="btn" data-chalk="pill" href="' + esc(acc.url) + '" rel="noopener" target="_blank">Follow us<span class="visually-hidden"> on Instagram, @' + esc(acc.handle) + ' (opens in a new tab)</span></a></div></div></div>' +
+      '<figcaption><p class="reel__caption">School life, straight from our Instagram.</p></figcaption></figure>';
+  }
+  function reelCard(item) {
+    var cap = (item.caption || "").split("\n")[0].slice(0, 120);
+    var handle = item.username || item.account || "";
+    var poster = item.thumbnail_local || item.thumbnail_url || item.media_url;
+    var video = item.media_type === "VIDEO" ? (item.video_local || item.media_url) : null;
+    return '<figure class="reel"><div class="reel__phone" data-chalk="phone"><span class="reel__notch" aria-hidden="true"></span><div class="reel__screen">' +
+      '<span class="reel__handle">@' + esc(handle) + '</span>' +
+      (video
+        ? '<video class="reel__poster" muted loop playsinline preload="none" poster="' + esc(poster) + '" src="' + esc(video) + '" aria-label="Instagram reel: ' + esc(cap || "school life") + '"></video>' +
+          '<button class="reel__sound" type="button" aria-pressed="false" aria-label="Unmute reel" data-sprite="' + SPRITE + '">' + '<svg aria-hidden="true"><use href="' + SPRITE + '#i-sound-off"/></svg></button>'
+        : '<img class="reel__poster" loading="lazy" src="' + esc(poster) + '" alt="' + esc(cap || "Instagram post from @" + handle) + '">') +
+      '</div></div><figcaption><p class="reel__caption">' + esc(cap) + '</p><a class="reel__link" href="' + esc(item.permalink) + '" rel="noopener" target="_blank">View on Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption></figure>';
+  }
+  if (reelsRow) {
+    var feedUrl = reelsRow.getAttribute("data-reels") || "/data/instagram.json";
+    var limit = parseInt(reelsRow.getAttribute("data-limit"), 10) || 6;
+    fetch(feedUrl, { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+      // Accept our cron JSON ({items:[...]}) or a Behold feed ({posts:[...]} or an array)
+      var items = data && (data.items || data.posts || (Array.isArray(data) ? data : null));
+      if (!items || !items.length) throw new Error("empty feed");
+      items = items.filter(function (i) { return i.media_type === "VIDEO" || i.mediaType === "VIDEO" || i.media_product_type === "REELS"; }).slice(0, limit);
+      if (!items.length) throw new Error("no reels");
+      reelsRow.innerHTML = items.map(reelCard).join("");
+    }).catch(function () {
+      reelsRow.innerHTML = ACCOUNTS.map(followCard).join("");
+    }).then(function () {
+      document.dispatchEvent(new CustomEvent("vnl:content"));
+    });
+  }
+
+  /* ---------- Back to top: the duster wipes the board ---------- */
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest && e.target.closest("[data-wipe-top]");
+    if (!btn) return;
+    e.preventDefault();
+    var target = document.getElementById("top") || document.body;
+    if (reduceMotion) { window.scrollTo(0, 0); target.focus({ preventScroll: true }); return; }
+    var wipe = document.querySelector(".wipe");
+    if (!wipe) {
+      wipe = document.createElement("div");
+      wipe.className = "wipe"; wipe.setAttribute("aria-hidden", "true");
+      wipe.innerHTML = '<span class="wipe__duster"></span>';
+      document.body.appendChild(wipe);
+    }
+    wipe.classList.remove("is-wiping"); void wipe.offsetWidth; wipe.classList.add("is-wiping");
+    setTimeout(function () { root.style.scrollBehavior = "auto"; window.scrollTo(0, 0); root.style.scrollBehavior = ""; target.focus({ preventScroll: true }); }, 500);
+    setTimeout(function () { wipe.classList.remove("is-wiping"); }, 1200);
+  });
 })();

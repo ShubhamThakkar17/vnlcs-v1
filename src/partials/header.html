@@ -1,0 +1,50 @@
+<aside class="frame-strip topbar" aria-label="Contact and social links">
+  <div class="wrap">
+    <ul class="topbar__contact">
+      <li><a href="tel:+912676225955"><x-icon id="i-phone"></x-icon><span class="visually-hidden">Call the school office: </span>02676 225955</a></li>
+      <li class="topbar__phone2"><a href="tel:+918000201153"><x-icon id="i-phone"></x-icon><span class="visually-hidden">Call: </span>+91 80002 01153</a></li>
+      <li class="topbar__email"><a href="mailto:veer.newlook@gmail.com"><x-icon id="i-mail"></x-icon><span class="visually-hidden">Email: </span>veer.newlook@gmail.com</a></li>
+    </ul>
+    <ul class="topbar__social">
+      <li><a href="https://www.instagram.com/vnlcs_halol/" rel="noopener" target="_blank"><x-icon id="i-instagram"></x-icon><span class="visually-hidden">Instagram: </span>@vnlcs_halol<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.instagram.com/veernewlookschoolhalol/" rel="noopener" target="_blank"><x-icon id="i-instagram"></x-icon><span class="visually-hidden">Instagram: @veernewlookschoolhalol (opens in a new tab)</span></a></li>
+    </ul>
+  </div>
+</aside>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand__badge"><img src="/assets/img/logo-new-look.webp" width="83" height="90" alt=""></span>
+      <span class="brand__name"><strong>Veer New Look</strong><span>Central School, Halol</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul>{{nav}}</ul>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" aria-pressed="false">
+        <span class="theme-toggle__board" aria-hidden="true"><svg><use href="/assets/doodles/sprite.svg#i-chalk"/></svg></span>
+        <span class="theme-toggle__label"><span data-theme-name="blackboard" class="is-on">Blackboard</span> / <span data-theme-name="whiteboard">Whiteboard</span></span>
+        <span class="theme-toggle__status visually-hidden">(Blackboard on)</span>
+      </button>
+      <a class="btn btn--primary btn--enquire" href="/admissions/#enquire" data-chalk="pill" data-chalk-fill data-seed="7">Enquire Now</a>
+      <button class="menu-btn" type="button" aria-controls="mobile-menu" aria-expanded="false" data-menu-open>
+        <span class="visually-hidden">Open menu</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M3 6.2 C9 5.6 15 6.6 21 5.8"/><path class="l2" d="M3.4 12.2 C9 11.6 14 12.6 20.6 12"/><path class="l3" d="M3 18 C9 18.6 15 17.6 21 18.2"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert role="dialog" aria-modal="true" aria-label="Menu">
+  <button class="menu-btn menu-close" type="button" aria-expanded="true" data-menu-close>
+    <span class="visually-hidden">Close menu</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.6 4.4 L19.6 19.4 M19.4 4.6 L4.4 19.6"/></svg>
+  </button>
+  <nav aria-label="Main">
+    <ul>{{navMobile}}</ul>
+  </nav>
+  <div class="mobile-menu__foot">
+    <a class="btn btn--primary" href="/admissions/#enquire" data-chalk="pill" data-chalk-fill>Enquire Now</a>
+    <a href="tel:+912676225955">Call 02676 225955</a>
+    <a href="/cbse-disclosure/">CBSE Mandatory Disclosure</a>
+  </div>
+</div>
