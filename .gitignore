@@ -1,0 +1,10 @@
+node_modules/
+scratch/
+.DS_Store
+# runtime data written by cron jobs and the PHP cache on the server
+/data/cache/
+/media/ig/*
+!/media/ig/.gitkeep
+# secrets live outside the web root; never commit them
+/private/
+config.local.php

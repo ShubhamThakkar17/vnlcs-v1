@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en-IN" data-theme="blackboard">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style tile | Veer New Look Central School, Halol</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1E2B25">
+<script>try{if(localStorage.getItem("vnl-theme")==="whiteboard")document.documentElement.setAttribute("data-theme","whiteboard")}catch(e){}</script>
+<link rel="preload" href="/assets/fonts/cabin-sketch-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/kalam-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/vendor/rough-notation.iife.js" defer></script>
+<script src="/assets/js/site.js" defer></script>
+<style>
+  /* Layout for this review page only. Not shipped on the live site. */
+  .tile { padding-block: var(--space-4) var(--space-6); }
+  .tile-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .6rem; }
+  .tile-head p { margin: 0; font-size: 1rem; }
+  .tile section { position: relative; padding-block: var(--space-4); border-top: 2px dashed var(--smudge); }
+  .tile h2 { font-size: var(--step-3); }
+  .grid { display: grid; gap: var(--space-3); }
+  @media (min-width: 48rem) { .grid--2 { grid-template-columns: 1fr 1fr; } .grid--3 { grid-template-columns: repeat(3, 1fr); } }
+  .swatches { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .swatch { margin: 0; }
+  .swatch__chip { height: 72px; border-radius: var(--wobble-radius); border: 2px solid var(--ink-soft); }
+  .swatch figcaption { font-size: 1rem; line-height: 1.35; padding-top: .4rem; }
+  .swatch code { font-family: var(--font-data); font-size: .85rem; letter-spacing: .02em; display: block; color: var(--ink-soft); }
+  .type-row { padding-block: 1rem; border-bottom: 1px dashed var(--smudge); }
+  .type-row:last-child { border-bottom: 0; }
+  .type-label { display: block; font-family: var(--font-data); font-size: .85rem; letter-spacing: .04em; color: var(--ink-soft); margin-bottom: .3rem; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  .data-table th, .data-table td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--smudge); }
+  .data-table th { color: var(--accent-1); font-weight: 700; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; }
+  .doodle-row { display: flex; flex-wrap: wrap; gap: 2rem 2.5rem; align-items: end; }
+  .doodle-row figure { margin: 0; text-align: center; color: var(--accent-4); }
+  .doodle-row svg { height: 64px; width: auto; filter: var(--stroke-filter); }
+  .doodle-row figcaption { color: var(--ink-soft); font-size: 1rem; padding-top: .3rem; }
+  .doodle-row .is-picked figcaption { color: var(--accent-1); font-weight: 700; }
+  .reel-demo { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
+  .notes { display: grid; gap: 2.2rem; padding-top: 1rem; }
+  @media (min-width: 48rem) { .notes { grid-template-columns: repeat(2, 1fr); } }
+  .ticker-demo { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; padding: .7rem 1rem; border-radius: var(--wobble-radius); background: var(--smudge); }
+  .ticker-demo time { color: var(--accent-3); font-size: .95rem; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Shared SVG filters. aria-hidden, decoration only. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="f-rough-text" x="-2%" y="-10%" width="104%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="f-chalk" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="5" result="grain"/>
+    <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.45" result="mask"/>
+    <feComposite in="SourceGraphic" in2="mask" operator="in" result="g"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2" result="w"/>
+    <feDisplacementMap in="g" in2="w" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<header class="frame-strip">
+  <div class="wrap tile-head">
+    <p><strong>Style tile</strong> · Veer New Look Central School, Halol · for review only</p>
+    <button class="theme-toggle" type="button" aria-pressed="false">
+      <span class="theme-toggle__board" aria-hidden="true"><svg><use href="/assets/doodles/sprite.svg#i-chalk"/></svg></span>
+      <span class="theme-toggle__label"><span data-theme-name="blackboard" class="is-on">Blackboard</span> / <span data-theme-name="whiteboard">Whiteboard</span></span>
+      <span class="theme-toggle__status visually-hidden">(Blackboard on)</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="wrap tile">
+
+  <!-- 1. Hero sample: stacked heading, eyebrow, CTAs, doodles -->
+  <section aria-labelledby="t-hero" style="border-top:0">
+    <span class="doodle" style="--size:64px; right:4%; top:1.5rem; --rot:12deg" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-star"/></svg></span>
+    <span class="doodle doodle--wide" style="--size:72px; right:18%; top:10rem; color:var(--accent-1)" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-sun"/></svg></span>
+    <p class="eyebrow">Our school</p>
+    <h1 id="t-hero" class="stack"><span>Play,</span><span>Learn &amp;</span><span>Grow Together</span></h1>
+    <p>Veer New Look Central School, Halol is a <span data-annotate="underline" data-color="var(--accent-2)">CBSE-affiliated</span>, English medium, co-educational school, from Nursery to Class 12.</p>
+    <div class="btn-row" style="margin-top:1.5rem">
+      <a class="btn btn--primary" href="#" data-chalk="pill" data-chalk-fill data-seed="11">Enquire for Admission</a>
+      <a class="btn" href="#" data-chalk="pill" data-seed="23">Take a Campus Tour</a>
+    </div>
+  </section>
+
+  <!-- 2. Colour tokens -->
+  <section aria-labelledby="t-colour">
+    <p class="eyebrow">Colour</p>
+    <h2 id="t-colour">Colour tokens</h2>
+    <p>Swatches show the board you are on. Switch the board in the header to see the other set. Checked contrast ratios are in <code class="data">docs/contrast-report.md</code>.</p>
+    <div class="swatches">
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--board)"></div><figcaption>--board<code>#1E2B25 / #FAFAF7</code>Page background</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--frame)"></div><figcaption>--frame<code>#6B4A2E / #B8BCC2</code>Frame, header, footer edges</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--ink)"></div><figcaption>--ink<code>#F3F0E8 / #1F2937</code>Body text</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--accent-1)"></div><figcaption>--accent-1<code>#F6E27F / #1D4ED8</code>Headings, primary CTA</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--accent-2)"></div><figcaption>--accent-2<code>#F4A6B8 / #C62828</code>Highlights, "New" tags</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--accent-3)"></div><figcaption>--accent-3<code>#9FD3F0 / #2E7D32</code>Links, secondary CTA</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--accent-4)"></div><figcaption>--accent-4<code>#B5E3A1 / #EA580C</code>Icons, doodles</figcaption></figure>
+      <figure class="swatch"><div class="swatch__chip" style="background:var(--smudge)"></div><figcaption>--smudge<code>8% chalk / 6% marker</code>Card fills, smudges</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 3. Type -->
+  <section aria-labelledby="t-type">
+    <span class="doodle" style="--size:96px; right:2%; top:2.5rem; --rot:-6deg" aria-hidden="true"><svg viewBox="0 0 92 48"><use href="/assets/doodles/sprite.svg#d-abc"/></svg></span>
+    <p class="eyebrow">Type</p>
+    <h2 id="t-type">Three hands, one board</h2>
+    <div class="type-row">
+      <span class="type-label">Display · Cabin Sketch · H1 and H2 · rough-edge filter on Blackboard</span>
+      <p style="font-family:var(--font-display); font-size:var(--step-3); color:var(--accent-1); line-height:1.1; margin:0; filter:var(--text-filter)">Learning that fits the learner</p>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Handwriting · Kalam 700 · H3, labels, buttons</span>
+      <h3>Pre-primary: Nursery, LKG and UKG</h3>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Handwriting · Kalam 400 · body copy, 18 px minimum on mobile</span>
+      <p style="margin:0">Short sentences, warm and simple. Parents should feel a real classroom. We write in Indian English with British spelling: programme, colour, organised.</p>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Dense data · Nunito, +0.02em letter-spacing · tables, circular numbers, dates, form inputs</span>
+      <table class="data-table">
+        <caption class="visually-hidden">Sample of the data style</caption>
+        <thead><tr><th scope="col">Circular no.</th><th scope="col">Date</th><th scope="col">Subject</th></tr></thead>
+        <tbody>
+          <tr><td>[CIRCULAR NO.]</td><td><time datetime="2026-10-31">31 Oct 2026</time></td><td>[CIRCULAR SUBJECT]</td></tr>
+          <tr><td>[CIRCULAR NO.]</td><td><time datetime="2026-10-24">24 Oct 2026</time></td><td>[CIRCULAR SUBJECT]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. Buttons, links, focus -->
+  <section aria-labelledby="t-buttons">
+    <p class="eyebrow">Buttons</p>
+    <h2 id="t-buttons">Chalk pills</h2>
+    <p>Hover to thicken the chalk and drop a little dust. Tab to see the dashed chalk focus ring. All are at least 48 px tall for thumbs.</p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="#" data-chalk="pill" data-chalk-fill data-seed="31">Enquire Now</a>
+      <a class="btn" href="#" data-chalk="pill" data-seed="37">See all notices</a>
+      <a href="#">A plain text link</a>
+    </div>
+  </section>
+
+  <!-- 5. Card + photo -->
+  <section aria-labelledby="t-card">
+    <span class="doodle" style="--size:62px; right:3%; top:2rem" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-beaker"/></svg></span>
+    <p class="eyebrow">Cards and photos</p>
+    <h2 id="t-card">A card and a taped photo</h2>
+    <div class="grid grid--2">
+      <article class="card" data-chalk="box" data-seed="41">
+        <svg class="card__icon" viewBox="0 0 64 64" aria-hidden="true"><use href="/assets/doodles/sprite.svg#d-abc"/></svg>
+        <h3>Pre-primary</h3>
+        <p class="card__meta">Nursery, LKG, UKG</p>
+        <p>Play-based learning, phonics, art and craft. [STAGE INTRO: one line from the school]</p>
+        <a class="card__link" href="#">Explore pre-primary</a>
+      </article>
+      <figure class="photo">
+        <div class="photo__img"><div class="placeholder">[PHOTO: science lab]</div></div>
+        <figcaption>Our science lab [CAPTION TO CONFIRM]</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 6. Taped notices -->
+  <section aria-labelledby="t-notes">
+    <p class="eyebrow">Notice board</p>
+    <h2 id="t-notes">Paper notes, taped on</h2>
+    <p>Notices are paper in both themes, so the paper keeps its own dark ink. CBSE circulars get a stamp. Anything under 7 days old gets a red "New" circle.</p>
+    <div class="notes">
+      <article class="note">
+        <div class="note__meta"><span class="tag tag--cbse">CBSE</span><time datetime="2026-10-29">29 Oct 2026</time><span class="tag tag--new" data-annotate="circle" data-color="#B3261E" data-padding="6" data-stroke="2">New</span></div>
+        <h3><a href="#">[SAMPLE] CBSE circular title goes here</a></h3>
+        <p>[Summary, up to 200 characters, written by school staff in Sanity.]</p>
+      </article>
+      <article class="note">
+        <div class="note__meta"><span>School notice</span><time datetime="2026-10-12">12 Oct 2026</time></div>
+        <h3><a href="#">[SAMPLE] School notice title goes here</a></h3>
+        <p>[Summary of the notice.]</p>
+      </article>
+    </div>
+    <h3 style="margin-top:2.5rem">On the board: the notice ticker</h3>
+    <div class="ticker-demo on-board">
+      <span class="tag tag--new">New</span><time datetime="2026-10-29">29 Oct</time><a href="#">[SAMPLE] Latest notice title</a>
+    </div>
+  </section>
+
+  <!-- 7. Reel frame -->
+  <section aria-labelledby="t-reel">
+    <p class="eyebrow">Live from Instagram</p>
+    <h2 id="t-reel">A reel in a chalk phone</h2>
+    <div class="reel-demo">
+      <figure class="reel">
+        <div class="reel__phone" data-chalk="phone" data-seed="53">
+          <span class="reel__notch" aria-hidden="true"></span>
+          <div class="reel__screen">
+            <span class="reel__handle">@vnlcs_halol</span>
+            <div class="placeholder" style="border:0;border-radius:inherit;height:100%">[REEL: thumbnail from the Instagram feed]</div>
+            <button class="reel__sound" type="button" aria-pressed="false" aria-label="Unmute reel" data-sprite="/assets/doodles/sprite.svg"><svg aria-hidden="true"><use href="/assets/doodles/sprite.svg#i-sound-off"/></svg></button>
+          </div>
+        </div>
+        <figcaption>
+          <p class="reel__caption">[First line of the Instagram caption]</p>
+          <a class="reel__link" href="https://www.instagram.com/vnlcs_halol/" rel="noopener">View on Instagram</a>
+        </figcaption>
+      </figure>
+      <div style="max-width:32rem">
+        <p>On Home, six of these sit in a row. Each plays muted and looped when it scrolls into view and stops when it leaves. Tap the speaker to unmute. Videos use <code class="data">preload="none"</code> with the thumbnail as the poster.</p>
+        <p>The handle tag shows which account posted it: <span class="data">@vnlcs_halol</span> or <span class="data">@veernewlookschoolhalol</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Doodles -->
+  <section aria-labelledby="t-doodles">
+    <p class="eyebrow">Doodles</p>
+    <h2 id="t-doodles">The doodle box</h2>
+    <p>Three picked for the tile are highlighted. The rest are ready for section headings. All are decorative and hidden from screen readers.</p>
+    <div class="doodle-row" aria-hidden="true">
+      <figure class="is-picked"><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-star"/></svg><figcaption>Star</figcaption></figure>
+      <figure class="is-picked"><svg viewBox="0 0 120 48"><use href="/assets/doodles/sprite.svg#d-sum"/></svg><figcaption>1+1=2</figcaption></figure>
+      <figure class="is-picked"><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-globe"/></svg><figcaption>Globe</figcaption></figure>
+      <figure><svg viewBox="0 0 64 40"><use href="/assets/doodles/sprite.svg#d-arrow"/></svg><figcaption>Arrow</figcaption></figure>
+      <figure><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-sun"/></svg><figcaption>Sun</figcaption></figure>
+      <figure><svg viewBox="0 0 92 48"><use href="/assets/doodles/sprite.svg#d-abc"/></svg><figcaption>ABC</figcaption></figure>
+      <figure><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-beaker"/></svg><figcaption>Beaker</figcaption></figure>
+      <figure><svg viewBox="0 0 64 64"><use href="/assets/doodles/sprite.svg#d-bat"/></svg><figcaption>Cricket bat</figcaption></figure>
+    </div>
+    <p style="margin-top:2rem">Rough Notation marks key words: an <span data-annotate="underline" data-color="var(--accent-2)">underline</span>, a <span data-annotate="circle" data-color="var(--accent-1)" data-padding="8">circle</span> and a <span data-annotate="box" data-color="var(--accent-3)">box</span>. Each draws in once on scroll, and appears already drawn with reduced motion.</p>
+  </section>
+
+</main>
+</body>
+</html>
